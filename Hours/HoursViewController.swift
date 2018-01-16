@@ -9,12 +9,49 @@
 import Cocoa
 
 class HoursViewController: NSViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
+//        currentQuoteIndex = 0
     }
     
+    func updateFile(path: String) {
+        textLabel.stringValue = path;
+    }
+    
+    @IBOutlet var textLabel: NSTextField!
+    
+}
+
+extension HoursViewController {
+    func browseFile(sender: AnyObject) {
+        
+        let dialog = NSOpenPanel();
+        
+        dialog.title                   = "Choose a .txt file";
+        dialog.showsResizeIndicator    = true;
+        dialog.showsHiddenFiles        = false;
+        dialog.canChooseDirectories    = true;
+        dialog.canCreateDirectories    = true;
+        dialog.allowsMultipleSelection = false;
+        dialog.allowedFileTypes        = ["png", "jpg", "jpeg"];
+        
+        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
+            let result = dialog.url // Pathname of the file
+            
+            if (result != nil) {
+                let path = result!.path
+                updateFile(path: path);
+            }
+        } else {
+            // User clicked on "Cancel"
+            return
+        }
+        
+    }
+    
+    @IBAction func selectFile(sender: NSButton) {
+        browseFile(sender: sender)
+    }
 }
 
 // This method is created so that anything that uses HoursViewController doesn't need

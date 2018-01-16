@@ -13,6 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
     let popover = NSPopover()
+    var eventMonitor: EventMonitor?
     
     // open or close the popover depending on its current state
     // the @objc exposes the method to Objective-C runtime to allow the button to use as an action
@@ -30,11 +31,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusItem.button {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
+        eventMonitor?.start()
     }
     
     // simply closes the popover
     func closePopover(sender: Any?) {
         popover.performClose(sender)
+        eventMonitor?.stop()
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -43,6 +46,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.action = #selector(togglePopover(_:))
         }
         popover.contentViewController = HoursViewController.freshController()
+        
+        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
+            if let strongSelf = self, strongSelf.popover.isShown {
+                strongSelf.closePopover(sender: event)
+            }
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

@@ -704,6 +704,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="saveWallpaperWithSender:" target="XfG-lQ-9wD" id="76B-eo-Ezk"/>
+                                </connections>
                             </button>
                             <textField identifier="filename_field" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z9c-Vd-wYx">
                                 <rect key="frame" x="129" y="131" width="140" height="22"/>
@@ -726,6 +729,11 @@
                                     <action selector="selectFileWithSender:" target="XfG-lQ-9wD" id="shP-ft-Gcr"/>
                                 </connections>
                             </button>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tpR-fU-b9w">
+                                <rect key="frame" x="76" y="118" width="48" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="XX3-MU-2cB"/>
+                            </imageView>
                         </subviews>
                     </view>
                     <connections>

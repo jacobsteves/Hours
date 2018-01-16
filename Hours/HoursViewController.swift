@@ -19,6 +19,7 @@ class HoursViewController: NSViewController {
     }
     
     @IBOutlet var textLabel: NSTextField!
+    @IBOutlet var image: NSImage!
     
 }
 
@@ -51,6 +52,16 @@ extension HoursViewController {
     
     @IBAction func selectFile(sender: NSButton) {
         browseFile(sender: sender)
+    }
+    
+    @IBAction func saveWallpaper(sender: NSButton) {
+        let screens = NSScreen.screens
+        let newWallpaperURL = NSURL(fileURLWithPath: textLabel.stringValue)
+        print(textLabel.stringValue);
+        
+        for i in screens {
+            try! NSWorkspace.shared.setDesktopImageURL(newWallpaperURL as URL, for: i, options: [:])
+        }
     }
 }
 

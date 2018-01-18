@@ -11,7 +11,27 @@ import Cocoa
 class HoursViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-//        currentQuoteIndex = 0
+    }
+    
+    @objc func runCode() {
+        let screens = NSScreen.screens
+        let newWallpaperURL = NSURL(fileURLWithPath: textLabel.stringValue)
+        print(textLabel.stringValue);
+        
+        for i in screens {
+            try! NSWorkspace.shared.setDesktopImageURL(newWallpaperURL as URL, for: i, options: [:])
+        }
+    }
+    
+    func update() {
+        let screens = NSScreen.screens
+        let newWallpaperURL = NSURL(fileURLWithPath: textLabel.stringValue)
+        print(textLabel.stringValue);
+        
+        for i in screens {
+            try! NSWorkspace.shared.setDesktopImageURL(newWallpaperURL as URL, for: i, options: [:])
+        }
+        print("updating")
     }
     
     func updateFile(path: String) {
@@ -19,7 +39,7 @@ class HoursViewController: NSViewController {
     }
     
     @IBOutlet var textLabel: NSTextField!
-    @IBOutlet var image: NSImage!
+    @IBOutlet var datePicker: NSDatePicker!
     
 }
 
@@ -55,13 +75,9 @@ extension HoursViewController {
     }
     
     @IBAction func saveWallpaper(sender: NSButton) {
-        let screens = NSScreen.screens
-        let newWallpaperURL = NSURL(fileURLWithPath: textLabel.stringValue)
-        print(textLabel.stringValue);
-        
-        for i in screens {
-            try! NSWorkspace.shared.setDesktopImageURL(newWallpaperURL as URL, for: i, options: [:])
-        }
+        let date = datePicker.dateValue
+        let timer = Timer(fireAt: date, interval: 86400, target: self, selector: #selector(runCode), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
     }
 }
 
